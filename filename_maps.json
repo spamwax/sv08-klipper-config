@@ -1,0 +1,9 @@
+{
+    "files": [
+        "printer.cfg",
+        "sovol-macros.cfg",
+        "saved_variables.cfg",
+        "options/probe/probe.cfg"
+    ],
+    "targets": [ "euclid", "kaiclid", "stock-probe" ]
+}
