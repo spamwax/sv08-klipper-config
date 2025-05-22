@@ -7,7 +7,7 @@ SET_HEATER_TEMPERATURE HEATER=heater_bed TARGET={bed_temperature_initial_layer_s
 TEMPERATURE_WAIT SENSOR=heater_bed MINIMUM={bed_temperature_initial_layer_single-6}
 TEMPERATURE_WAIT SENSOR=extruder MINIMUM=140
 
-SET_GCODE_OFFSET Z=0
+SET_GCODE_OFFSET Z=0 MOVE=1
 
 ; First Home the X-Y axes
 G28 X Y
@@ -15,17 +15,15 @@ M400 ; Wait for moves to finish
 STABLE_Z_HOME  ; instead of G28 Z
 
 ; Move around to release frame stress before QGL
-G1 Z20 F1200
-G1 X1 Y362 F18000
-G1 X349 F18000
-G1 Y1
-G1 X1
-G1 Y362
-G1 F12000
-G1 X177 Y177 Z40
-G1 Z340 F6500
-G1 Z20 F6500
-G1 F10000
+JERK_OFF
+;G1 Z100 F1200
+;G1 X1 Y362 F18000
+;G1 X349 F18000
+;G1 Y1
+;G1 X1
+;G1 Y362
+;G1 F12000
+;G1 X177 Y177 Z40
 
 ; QUAD GANTRY LEVEL
 M117 QGL
@@ -62,16 +60,16 @@ EUCLID_PROBE_END_BATCH
 ASSERT_PROBE_STOWED
 
 {if curr_bed_type=="Textured PEI Plate"}
-START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] Z_ADJUST=0.00 SOAK_MINUTE=0 HEATSOAK=1
+START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] Z_ADJUST=0.0 SOAK_MINUTE=0 HEATSOAK=1
 {else}
-START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP={bed_temperature_initial_layer_single} Z_ADJUST=0.00 SOAK_MINUTE=0 HEATSOAK=1
+START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP={bed_temperature_initial_layer_single} Z_ADJUST=0.0 SOAK_MINUTE=0 HEATSOAK=1
 {endif}
 
 G90 ; set to absolute positioning
-G1 X177 Y177 F9000
+; G1 X177 Y177 F9000
 G1 Y20
 G1 X0 Y0 F9000
-G1 Z0.600 F600
+G1 Z0.85 F600
 
 M400 ; Wait for moves to finish
 G91 ; set to relative positioning
@@ -81,7 +79,7 @@ M104 S[nozzle_temperature_initial_layer] ;set extruder temp
 ;M190 S[bed_temperature_initial_layer_single] ;wait for bed temp
 ;M109 S[nozzle_temperature_initial_layer];wait for extruder temp
 
-G1 E15 F300
+G1 E10.5 F300
 
 G4 P1000 ; pause for 1 second
 G1 E-0.200 Z5 F600
@@ -102,3 +100,4 @@ G1 Y1 E0.16 F1800
 ; Lift up and get ready to run the actual gcode from slicer
 G1 E-0.200 Z1 F600
 M400 ; Wait for moves to finish
+
