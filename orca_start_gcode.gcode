@@ -39,7 +39,7 @@ M400
 
 EUCLID_PROBE_BEGIN_BATCH
 
-CALIBRATE_Z BED_POSITION={(adaptive_bed_mesh_min[0]+adaptive_bed_mesh_max[0])/2},{(adaptive_bed_mesh_min[1]+adaptive_bed_mesh_max[1])/2}
+CALIBRATE_Z ; BED_POSITION={(adaptive_bed_mesh_min[0]+adaptive_bed_mesh_max[0])/2},{(adaptive_bed_mesh_min[1]+adaptive_bed_mesh_max[1])/2}
 SET_HEATER_TEMPERATURE HEATER=heater_bed TARGET={bed_temperature_initial_layer_single}
 TEMPERATURE_WAIT SENSOR=heater_bed MINIMUM={ bed_temperature_initial_layer_single - 1.0 } MAXIMUM={ bed_temperature_initial_layer_single + 3 }
 M400 ; Finish moves
