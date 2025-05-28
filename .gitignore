@@ -1,3 +1,5 @@
 ._sovol-macros.cfg
 ._z_calibration.cfg
 ._.gitignore
+options/probe/._probe.cfg
+._gradual_cooling.cfg

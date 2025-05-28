@@ -65,11 +65,15 @@ START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_tempe
 START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP={bed_temperature_initial_layer_single} Z_ADJUST=0.0 SOAK_MINUTE=0 HEATSOAK=1
 {endif}
 
+
+; BED_MESH_PROFILE LOAD=full_65_noZ ; textured
+BED_MESH_PROFILE LOAD=full_105_noZ  ; Wham smooth
+
 G90 ; set to absolute positioning
 ; G1 X177 Y177 F9000
 G1 Y20
-G1 X0 Y0 F9000
-G1 Z0.85 F600
+G1 X2 Y0 F9000
+G1 Z0.6 F600
 
 M400 ; Wait for moves to finish
 G91 ; set to relative positioning
@@ -79,7 +83,7 @@ M104 S[nozzle_temperature_initial_layer] ;set extruder temp
 ;M190 S[bed_temperature_initial_layer_single] ;wait for bed temp
 ;M109 S[nozzle_temperature_initial_layer];wait for extruder temp
 
-G1 E10.5 F300
+G1 E11F300
 
 G4 P1000 ; pause for 1 second
 G1 E-0.200 Z5 F600
@@ -101,3 +105,5 @@ G1 Y1 E0.16 F1800
 G1 E-0.200 Z1 F600
 M400 ; Wait for moves to finish
 
+BED_MESH_CLEAR
+BED_MESH_PROFILE LOAD=live-adaptive
