@@ -3,3 +3,5 @@
 ._.gitignore
 options/probe/._probe.cfg
 ._gradual_cooling.cfg
+*.conf.bkp
+*.cfg.swp
