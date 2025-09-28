@@ -82,7 +82,7 @@ SET_GCODE_OFFSET Z_ADJUST=-0.01 MOVE=1
 REPORT_Z_OFFSET
 {endif}
 ; ===================================================================================
-{elif nozzle_diameter[0] == 0.5}
+{elsif nozzle_diameter[0] == 0.5}
 {if curr_bed_type=="Textured PEI Plate"}
 SET_GCODE_OFFSET Z_ADJUST=0.01 MOVE=1
 REPORT_Z_OFFSET
@@ -91,7 +91,7 @@ SET_GCODE_OFFSET Z_ADJUST=-0.022 MOVE=1
 REPORT_Z_OFFSET
 {endif}
 ; ===================================================================================
-{elif nozzle_diameter[0] == 0.6}
+{elsif nozzle_diameter[0] == 0.6}
 {if curr_bed_type=="Textured PEI Plate"}
 SET_GCODE_OFFSET Z_ADJUST=0.01 MOVE=1
 REPORT_Z_OFFSET
