@@ -176,6 +176,8 @@ G4 P50
 _CLIENT_LINEAR_MOVE X={first_layer_print_min[0]} Y={first_layer_print_min[1]} F=15000 ABSOLUTE=1
 G1 E0.100 F600
 
+_CLIENT_LINEAR_MOVE Z={first_layer_height+ 0.01} F=1000 ABSOLUTE=1
+
 ; ==================================================================================
 ; ================================ END DEFAULT MESH ================================
 
