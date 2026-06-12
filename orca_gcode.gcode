@@ -138,7 +138,7 @@ BED_MESH_PROFILE LOAD=default_65C ; Wham smooth
 G90 ; set to absolute positioning
 G1 Y20
 G1 X0 Y0 F9000
-G1 Z0.10 F600
+G1 Z0.03 F600
 
 M400 ; Wait for moves to finish
 G91 ; set to relative positioning
@@ -149,9 +149,10 @@ SET_HEATER_TEMPERATURE HEATER=extruder TARGET={nozzle_temperature_initial_layer[
 M104 S[nozzle_temperature_initial_layer]
 M140 S{bed_temperature_initial_layer_single}
 
-G1 E12.5 F300
-
+G1 E11.0 F300
 G4 P2000 ; pause for 1 second
+
+G1 Z5 F600
 G1 E-0.200 Z5 F600
 G1 X88.000 F9000
 G1 Z-5.000 F600
