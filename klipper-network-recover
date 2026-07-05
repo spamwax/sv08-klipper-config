@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -u
+
+LOG="/var/log/klipper-network-recover.log"
+exec >> "$LOG" 2>&1
+
+echo
+echo "===== $(date -Is) network recovery requested ====="
+
+export PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+
+rfkill unblock wifi || true
+
+if command -v nmcli >/dev/null 2>&1; then
+    echo "Using NetworkManager recovery path"
+
+    WIFI_IFACE="$(
+        nmcli -t -f DEVICE,TYPE,STATE device status |
+        awk -F: '$2 == "wifi" {print $1; exit}'
+    )"
+
+    if [ -z "${WIFI_IFACE:-}" ]; then
+        WIFI_IFACE="wlan0"
+    fi
+
+    echo "Wi-Fi interface: $WIFI_IFACE"
+
+    nmcli radio wifi on || true
+    nmcli device disconnect "$WIFI_IFACE" || true
+    sleep 2
+
+    systemctl restart NetworkManager || true
+    sleep 4
+
+    nmcli radio wifi on || true
+    nmcli device wifi rescan ifname "$WIFI_IFACE" || true
+    sleep 2
+
+    nmcli device connect "$WIFI_IFACE" || true
+
+    echo "Final NetworkManager device state:"
+    nmcli device status || true
+
+    echo "IP addresses:"
+    ip -brief addr show "$WIFI_IFACE" || true
+
+else
+    echo "NetworkManager not found; using dhcpcd/wpa_supplicant fallback"
+
+    WIFI_IFACE="wlan0"
+
+    systemctl restart wpa_supplicant || true
+    systemctl restart dhcpcd || true
+
+    ip link set "$WIFI_IFACE" down || true
+    sleep 2
+    ip link set "$WIFI_IFACE" up || true
+
+    dhclient -r "$WIFI_IFACE" || true
+    dhclient "$WIFI_IFACE" || true
+
+    echo "IP addresses:"
+    ip -brief addr show "$WIFI_IFACE" || true
+fi
+
+echo "Network recovery finished"
