@@ -22,6 +22,7 @@ M104 S140
 
 SET_HEATER_TEMPERATURE HEATER=extruder TARGET=140
 SET_HEATER_TEMPERATURE HEATER=heater_bed TARGET={bed_temperature_initial_layer_single}
+STATUS_HEATING
 TEMPERATURE_WAIT SENSOR=heater_bed MINIMUM={bed_temperature_initial_layer_single-6}
 TEMPERATURE_WAIT SENSOR=extruder MINIMUM=139
 
@@ -53,7 +54,9 @@ EUCLID_PROBE_BEGIN_BATCH
 
 CALIBRATE_Z BED_POSITION={(adaptive_bed_mesh_min[0]+adaptive_bed_mesh_max[0])/2},{(adaptive_bed_mesh_min[1]+adaptive_bed_mesh_max[1])/2}
 
+STATUS_HEATING
 TEMPERATURE_WAIT SENSOR=heater_bed MINIMUM={ bed_temperature_initial_layer_single - 1.0 } MAXIMUM={ bed_temperature_initial_layer_single + 3 }
+STATUS_READY
 
 ; Further increase extruder temperature while we are doing bed mesh.
 {if filament_type[0] == "ABS" or filament_type[0] == "PLA" }
