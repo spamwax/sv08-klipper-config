@@ -136,9 +136,6 @@ START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP={bed_tempe
 BED_MESH_PROFILE LOAD=default_65C ; Wham smooth
 
 G90 ; set to absolute positioning
-G1 Y20
-G1 X0 Y0 F9000
-G1 Z0.03 F600
 
 M400 ; Wait for moves to finish
 G91 ; set to relative positioning
@@ -149,14 +146,27 @@ SET_HEATER_TEMPERATURE HEATER=extruder TARGET={nozzle_temperature_initial_layer[
 M104 S[nozzle_temperature_initial_layer]
 M140 S{bed_temperature_initial_layer_single}
 
+; Take a big dump then dance to detach it from nozzle
+G91
+M83
 G1 E11.0 F300
-G4 P2000 ; pause for 1 second
-
-G1 Z5 F600
+G4 P2000
+G1 Z0.1 F20000
+M400
+G1 X20.0 F20000
+M400
+; Slightly retract while moving up
+G91
+M83
 G1 E-0.200 Z5 F600
-G1 X88.000 F9000
+; Move +87, then come back down 5
+G91
+M83
+G1 X87.000 F9000
 G1 Z-5.000 F600
-; Prime line 1
+; Start Prime line 1 (2 segments), still relative
+G91
+M83
 G1 X87.000 E20.88 F1800
 G1 X87.000 E13.92 F1800
 G1 Y1 E0.16 F1800
