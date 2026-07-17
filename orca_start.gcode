@@ -140,6 +140,7 @@ G91
 M83
 G1 X87.000 F9000
 G1 Z-5.000 F600
+STATUS_PRINTING
 ; Start Prime line 1 (2 segments), still relative
 G91
 M83
